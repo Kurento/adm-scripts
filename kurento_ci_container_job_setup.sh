@@ -234,13 +234,13 @@ MAVEN_OPTIONS+=" -Dtest.selenium.record=$RECORD_TEST"
 [ -n "$SCENARIO_TEST_CONFIG_JSON" ] && MAVEN_OPTIONS+=" -Dtest.config.json=$CONTAINER_TEST_CONFIG_JSON -Dtest.config.file=$CONTAINER_TEST_CONFIG_JSON"
 
 if [[ -z "$TEST_CONTAINER_NAME" ]]; then
-	export TEST_CONTAINER_NAME=$BUILD_TAG-JOB_SETUP-$(date +"%s")
+  TEST_CONTAINER_NAME="${BUILD_TAG}-JOB_SETUP-$(date '+%s')"
 fi
 
 # Create main container
 docker pull "$CONTAINER_IMAGE"
 docker run \
-  --name $TEST_CONTAINER_NAME \
+  --name "$TEST_CONTAINER_NAME" \
   $([ "$DETACHED" = "true" ] && echo "-d" || echo "--rm") \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /var/lib/jenkins/test-files:$CONTAINER_TEST_FILES \
